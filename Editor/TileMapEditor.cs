@@ -10,7 +10,6 @@ public class TileMapEditor : Editor {
     public override void OnInspectorGUI()
     {
         EditorGUILayout.BeginVertical();
-
         map.mapSize = EditorGUILayout.Vector2Field("Map Size : ", map.mapSize);
         map.texture = (Texture2D) EditorGUILayout.ObjectField("Texture 2d : ", map.texture, typeof(Texture2D), false);
 
@@ -20,6 +19,8 @@ public class TileMapEditor : Editor {
         }
         else {
             EditorGUILayout.LabelField("Tile Size : ", map.tileSize.x + "x" + map.tileSize.y );
+            EditorGUILayout.LabelField("Grid Size : " , map.gridSize.x + "x" + map.gridSize.y);
+            EditorGUILayout.LabelField("Pixels to units : " , map.pixelsToUnits.ToString());
         }
 
         EditorGUILayout.EndVertical();
@@ -29,7 +30,6 @@ public class TileMapEditor : Editor {
     {
         map = target as TileMap;
         Tools.current = Tool.View;
-
         if(map.texture != null)
         {
             var path = AssetDatabase.GetAssetPath(map.texture);
@@ -39,8 +39,8 @@ public class TileMapEditor : Editor {
             var height = sprite.textureRect.height;
             var width = sprite.textureRect.width;
             map.tileSize = new Vector2(width, height);
-
-            map.gridSize = new Vector2();
+            map.pixelsToUnits = (int) (sprite.rect.width / sprite.bounds.size.x);
+            map.gridSize = new Vector2((width/ map.pixelsToUnits) * map.mapSize.x, (height/ map.pixelsToUnits) * map.mapSize.y);
         }
     }
 }
