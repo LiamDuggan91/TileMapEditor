@@ -38,7 +38,6 @@ public class TileMapEditor : Editor {
             var sprite = (Sprite)map.objectRefs[1];
             var height = sprite.textureRect.height;
             var width = sprite.textureRect.width;
-            var testVar = new Object();
             map.tileSize = new Vector2(width, height);
 
             map.gridSize = new Vector2();
